@@ -1,21 +1,17 @@
-import cardSvg from "../assets/images/card-logo.svg";
-import background from "../assets/images/bg-card-front.png";
-const Card = () => {
+import CardFront from "./cardFront";
+import cardBack from "../assets/images/bg-card-back.png";
+const Card = ({ ...rest }) => {
   return (
-    <div
-      className="px-5 sm:px-8 py-5 sm:py-8 text-white rounded-lg w-full h-full"
-      style={{ backgroundImage: `url(${background})` }}
-    >
-      <img src={cardSvg} alt="" className="w-14 sm:w-20" />
-      <div className="flex mt-8 sm:mt-12 mb-3 sm:mb-4 space-x-1 sm:space-x-2 text-xl sm:text-3xl tracking-wider">
-        <p>0000</p>
-        <p>0000</p>
-        <p>0000</p>
-        <p>1011</p>
-      </div>
-      <div className="flex justify-between text-xs sm:text-sm">
-        <p>FELICIA LEIRE</p>
-        <p>09/00</p>
+    <div className=" sm:w-[400px] bg-very-dark-violet w-full h-[250px] sm:h-auto pt-10 sm:pt-52 sm:pl-28">
+      <div className="relative w-80 sm:w-[500px] h-[250px] sm:h-[490px] mx-auto ">
+        <img
+          src={cardBack}
+          alt=""
+          className="absolute right-0 sm:bottom-0 w-10/12 sm:w-10/12 h-[159px] sm:h-56"
+        />
+        <div className="absolute left-0 bottom-0 sm:top-0 h-[159px] sm:h-56 w-10/12 sm:w-10/12">
+          <CardFront {...rest} />
+        </div>
       </div>
     </div>
   );
