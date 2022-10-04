@@ -13,7 +13,7 @@ const initialState = {
 function App() {
   const [card, setCard] = useState(initialState);
   const updateCard = (card) => setCard({ ...card });
-  const resetCard = (card) => setCard(initialState);
+  const resetCard = () => setCard(initialState);
   const regComplete = () => {
     card.isRegComplete = true;
     setCard({ ...card });
