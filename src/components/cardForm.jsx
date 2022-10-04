@@ -27,7 +27,10 @@ const CardForm = ({ onSubmit, onInputChange }) => {
     <div className="mt-24 sm:mt-60 w-80 mx-auto">
       <form onSubmit={handleSubmit(() => onSubmit())}>
         <div className="my-5">
-          <label htmlFor="name">CARDHOLDER NAME</label>
+          <h1>
+            <label htmlFor="name">CARDHOLDER NAME</label>
+          </h1>
+
           <div className="flex mt-2 w-full items-center justify-center">
             <div className="cursor-pointer w-full rounded-lg bg-gradient-to-r from-gradient-from to-gradient-to focus-within:p-[1px]">
               <input
