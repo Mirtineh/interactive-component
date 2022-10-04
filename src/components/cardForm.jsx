@@ -27,10 +27,11 @@ const CardForm = ({ onSubmit, onInputChange }) => {
     <div className="mt-24 sm:mt-60 w-80 mx-auto">
       <form onSubmit={handleSubmit(() => onSubmit())}>
         <div className="my-5">
-          <label htmlFor="CARDHOLDER NAME">CARDHOLDER NAME</label>
+          <label htmlFor="name">CARDHOLDER NAME</label>
           <div className="flex mt-2 w-full items-center justify-center">
             <div className="cursor-pointer w-full rounded-lg bg-gradient-to-r from-gradient-from to-gradient-to focus-within:p-[1px]">
               <input
+                id="name"
                 placeholder="e.g. Jane Appleseed"
                 className={
                   "w-full  border rounded-lg focus:outline-0 p-2 cursor-pointer " +
@@ -45,10 +46,11 @@ const CardForm = ({ onSubmit, onInputChange }) => {
           {errors.name && <div className="text-red">Can't be blank</div>}
         </div>
         <div className="my-5">
-          <label htmlFor="CARD NUMBER">CARD NUMBER</label>
+          <label htmlFor="number">CARD NUMBER</label>
           <div className="flex mt-2 w-full items-center justify-center">
             <div className="cursor-pointer w-full rounded-lg bg-gradient-to-r from-gradient-from to-gradient-to focus-within:p-[1px]">
               <input
+                id="number"
                 placeholder="e.g. 1234 5678 9123 0000"
                 className={
                   "w-full  border rounded-lg focus:outline-0 p-2 cursor-pointer " +
@@ -79,6 +81,7 @@ const CardForm = ({ onSubmit, onInputChange }) => {
                 <div className="flex mt-2 w-full items-center justify-center">
                   <div className="cursor-pointer w-full rounded-lg bg-gradient-to-r from-gradient-from to-gradient-to focus-within:p-[1px]">
                     <input
+                      id="date"
                       placeholder="MM"
                       className={
                         "w-full  border rounded-lg focus:outline-0 p-2 cursor-pointer " +
@@ -135,10 +138,11 @@ const CardForm = ({ onSubmit, onInputChange }) => {
               )}
             </div>
             <div>
-              <label htmlFor="CARDHOLDER NAME">CVC</label>
+              <label htmlFor="cvc">CVC</label>
               <div className="flex mt-2 w-full items-center justify-center">
                 <div className="cursor-pointer w-full rounded-lg bg-gradient-to-r from-gradient-from to-gradient-to focus-within:p-[1px]">
                   <input
+                    id="cvc"
                     placeholder="e.g. 123"
                     className={
                       "w-full  border rounded-lg focus:outline-0 p-2 cursor-pointer " +
