@@ -1,43 +1,165 @@
-import Form from "./common/form";
-import Joi from "joi-browser";
-class CardForm extends Form {
-  state = {
-    data: {
+import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+const CardForm = ({ onSubmit, onInputChange }) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
       name: "",
       cardNumber: "",
-      expiryDate: "",
+      month: "",
+      year: "",
       cvc: "",
     },
-    errors: {},
-  };
-  schema = {
-    name: Joi.string().required().label("CARDHOLDER NAME"),
-    cardNumber: Joi.number().required().label("CARD NUMBER"),
-    expiryDate: Joi.number().required().label("Exp. Date (MM/YY)"),
-    cvc: Joi.number().required().label("CVC"),
-  };
-  doSubmit = () => {
-    this.props.onSubmit();
-  };
-  handleNameChange = () => {
-    this.props.onNameChange(this.state.data.name);
-  };
-  handleNumberChange = () => {
-    this.props.onNumberChange(this.state.data.cardNumber.split(/\s+/));
-  };
-  render() {
-    return (
-      <div className="mt-24 sm:mt-60 w-80 mx-auto">
-        <form onSubmit={this.handleSubmit}>
-          {this.renderInput("name", "CARDHOLDER NAME")}
-          {this.renderInput("cardNumber", "CARD NUMBER")}
-          {this.renderInput("expiryDate", "Exp. Date (MM/YY)")}
-          {this.renderInput("cvc", "CVC")}
-          {this.renderButton("Confirm")}
-        </form>
-      </div>
-    );
-  }
-}
+  });
+  useEffect(() => {
+    const subscription = watch((data) => {
+      onInputChange(data);
+    });
+    return () => {
+      subscription.unsubscribe;
+    };
+  }, [watch]);
+  return (
+    <div className="mt-24 sm:mt-60 w-80 mx-auto">
+      <form onSubmit={handleSubmit(() => onSubmit())}>
+        <div className="my-5">
+          <label htmlFor="CARDHOLDER NAME">CARDHOLDER NAME</label>
+          <div className="flex mt-2 w-full items-center justify-center">
+            <div className="cursor-pointer w-full rounded-lg bg-gradient-to-r from-gradient-from to-gradient-to focus-within:p-[1px]">
+              <input
+                placeholder="e.g. Jane Appleseed"
+                className={
+                  "w-full  border rounded-lg focus:outline-0 p-2 cursor-pointer " +
+                  (errors.name
+                    ? "border-red focus:border-light-grayish-violet"
+                    : "border-light-grayish-violet")
+                }
+                {...register("name", { required: true })}
+              />
+            </div>
+          </div>
+          {errors.name && <div className="text-red">Can't be blank</div>}
+        </div>
+        <div className="my-5">
+          <label htmlFor="CARD NUMBER">CARD NUMBER</label>
+          <div className="flex mt-2 w-full items-center justify-center">
+            <div className="cursor-pointer w-full rounded-lg bg-gradient-to-r from-gradient-from to-gradient-to focus-within:p-[1px]">
+              <input
+                placeholder="e.g. 1234 5678 9123 0000"
+                className={
+                  "w-full  border rounded-lg focus:outline-0 p-2 cursor-pointer " +
+                  (errors.cardNumber
+                    ? "border-red focus:border-light-grayish-violet"
+                    : "border-light-grayish-violet")
+                }
+                {...register("cardNumber", {
+                  required: true,
+                  pattern: /\d{4}[\s]?\d{4}[\s]?\d{4}[\s]?\d{4}$/i,
+                })}
+              />
+            </div>
+          </div>
+          {errors.cardNumber && errors.cardNumber.type === "required" && (
+            <div className="text-red">Can't be blank</div>
+          )}
+          {errors.cardNumber && errors.cardNumber.type === "pattern" && (
+            <div className="text-red">Wrong Format</div>
+          )}
+        </div>
+        <div className="my-5">
+          <div className="flex space-x-3">
+            <div className="basis-2/3">
+              <label htmlFor="date">Exp. Date (MM/YY)</label>
+
+              <div className="flex space-x-3">
+                <div className="flex mt-2 w-full items-center justify-center">
+                  <div className="cursor-pointer w-full rounded-lg bg-gradient-to-r from-gradient-from to-gradient-to focus-within:p-[1px]">
+                    <input
+                      placeholder="MM"
+                      className={
+                        "w-full  border rounded-lg focus:outline-0 p-2 cursor-pointer " +
+                        (errors.month
+                          ? "border-red focus:border-light-grayish-violet"
+                          : "border-light-grayish-violet")
+                      }
+                      {...register("month", {
+                        required: true,
+                        min: 0,
+                        max: 12,
+                      })}
+                    />
+                  </div>
+                </div>
+                <div className=" flex-auto flex mt-2 w-full items-center justify-center">
+                  <div className="cursor-pointer w-full rounded-lg bg-gradient-to-r from-gradient-from to-gradient-to focus-within:p-[1px]">
+                    <input
+                      placeholder="YY"
+                      className={
+                        "w-full  border rounded-lg focus:outline-0 p-2 cursor-pointer " +
+                        (errors.year
+                          ? "border-red focus:border-light-grayish-violet"
+                          : "border-light-grayish-violet")
+                      }
+                      {...register("year", {
+                        required: true,
+                        min: 22,
+                        max: 99,
+                      })}
+                    />
+                  </div>
+                </div>
+              </div>
+              {errors.month && errors.month.type === "required" && (
+                <div className="text-red">Can't be blank</div>
+              )}
+              {errors.month && errors.month.type === "min" && (
+                <div className="text-red">Min Month is 00</div>
+              )}
+              {errors.month && errors.month.type === "max" && (
+                <div className="text-red">Max Month is 12</div>
+              )}
+              {!errors.month &&
+                errors.year &&
+                errors.year.type === "required" && (
+                  <div className="text-red">Can't be blank</div>
+                )}
+              {errors.year && errors.year.type === "min" && (
+                <div className="text-red">Minimum Year is 22</div>
+              )}
+              {errors.year && errors.year.type === "max" && (
+                <div className="text-red">Max Year is 99</div>
+              )}
+            </div>
+            <div>
+              <label htmlFor="CARDHOLDER NAME">CVC</label>
+              <div className="flex mt-2 w-full items-center justify-center">
+                <div className="cursor-pointer w-full rounded-lg bg-gradient-to-r from-gradient-from to-gradient-to focus-within:p-[1px]">
+                  <input
+                    placeholder="e.g. 123"
+                    className={
+                      "w-full  border rounded-lg focus:outline-0 p-2 cursor-pointer " +
+                      (errors.name
+                        ? "border-red focus:border-light-grayish-violet"
+                        : "border-light-grayish-violet")
+                    }
+                    {...register("cvc", { required: true })}
+                  />
+                </div>
+              </div>
+              {errors.cvc && <div className="text-red">Can't be blank</div>}
+            </div>
+          </div>
+        </div>
+        <button className="bg-very-dark-violet w-full text-white py-3 rounded-lg">
+          Confirm
+        </button>
+      </form>
+    </div>
+  );
+};
 
 export default CardForm;

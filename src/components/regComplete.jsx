@@ -1,5 +1,5 @@
 import completeSvg from "../assets/images/icon-complete.svg";
-const RegComplete = () => {
+const RegComplete = ({ onComplete }) => {
   return (
     <div className="flex flex-col  space-y-10 mt-24 sm:mt-60 w-80 mx-auto justify-center">
       <img src={completeSvg} alt="" className="mx-auto" />
@@ -10,7 +10,10 @@ const RegComplete = () => {
         </p>
       </div>
 
-      <button className="bg-very-dark-violet w-full text-white py-3 rounded-lg">
+      <button
+        onClick={() => onComplete()}
+        className="bg-very-dark-violet w-full text-white py-3 rounded-lg"
+      >
         Continue
       </button>
     </div>
